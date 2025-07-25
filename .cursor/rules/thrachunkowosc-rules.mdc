@@ -1,0 +1,252 @@
+---
+description: Tax Advisor Business Card Website - Development Rules
+globs: ["**/*.svelte", "**/*.ts", "**/*.js", "**/*.css", "**/tailwind.config.*", "**/postcss.config.*"]
+alwaysApply: true
+---
+
+# Tax Advisor Business Card Website - Development Rules
+
+## Project Overview
+This is a professional business card website for a tax advisor, built with modern Svelte architecture focusing on clean, maintainable, and scalable code.
+
+## Framework & Technology Stack
+- **Frontend**: Svelte/SvelteKit
+- **Routing**: SvelteKit file-based routing
+- **Styling**: Tailwind CSS with component-scoped styles
+- **TypeScript**: Preferred for type safety
+- **Build Tool**: Vite (via SvelteKit)
+
+## Architecture Principles
+
+### SOLID Principles
+- **S**ingle Responsibility: Each component/module has one clear purpose
+- **O**pen/Closed: Components open for extension, closed for modification
+- **L**iskov Substitution: Derived components must be substitutable for base components
+- **I**nterface Segregation: Small, focused interfaces rather than large ones
+- **D**ependency Inversion: Depend on abstractions, not concretions
+
+### Additional Principles
+- **KISS** (Keep It Simple, Stupid): Prefer simple solutions over complex ones
+- **DRY** (Don't Repeat Yourself): Avoid code duplication, create reusable components
+- **YAGNI** (You Aren't Gonna Need It): Don't add functionality until it's actually needed
+
+## Project Structure
+```
+src/
+├── lib/
+│   ├── components/          # Reusable UI components
+│   │   ├── common/         # Generic components (Button, Card, etc.)
+│   │   ├── layout/         # Layout components (Header, Footer, Navigation)
+│   │   └── sections/       # Page sections (Hero, Services, Contact)
+│   ├── stores/             # Svelte stores for state management
+│   ├── utils/              # Utility functions and helpers
+│   ├── types/              # TypeScript type definitions
+│   ├── services/           # Business logic and API calls
+│   └── usecases/           # Application use cases (if complex logic needed)
+├── routes/                 # SvelteKit pages and API routes
+│   ├── +layout.svelte      # Main layout
+│   ├── +page.svelte        # Home page
+│   ├── about/              # About us page
+│   ├── services/           # Services page
+│   ├── pricing/            # Pricing page
+│   └── contact/            # Contact page
+├── static/                 # Static assets
+└── app.html               # HTML template
+```
+
+## Page Structure Requirements
+1. **Home Page** (`/`): Hero section, brief overview, call-to-action
+2. **About Us** (`/about`): Company story, team, values
+3. **Services** (`/services`): Detailed service offerings
+4. **Pricing** (`/pricing`): Service pricing and packages
+5. **Contact** (`/contact`): Contact form, office info, map
+
+## Component Architecture
+
+### Component Categories
+1. **Layout Components**: Header, Footer, Navigation, Sidebar
+2. **Common Components**: Button, Card, Modal, Form elements
+3. **Section Components**: Hero, Services, Testimonials, Contact
+4. **Page Components**: Full page compositions
+
+### Component Rules
+- Each component should have a single responsibility
+- Use props for data input, events for data output
+- Implement proper TypeScript interfaces for props
+- Use Tailwind utility classes for styling
+- Create reusable components in `lib/components/common/`
+- Page-specific components go in respective page directories
+- Define component variants using Tailwind classes in props
+- Use `cva` (class-variance-authority) for complex component variants
+- Avoid inline styles; prefer Tailwind utilities
+
+## Code Organization Rules
+
+### File Naming
+- Components: PascalCase (e.g., `ContactForm.svelte`)
+- Pages: lowercase with dashes (e.g., `+page.svelte`)
+- Utilities: camelCase (e.g., `formatCurrency.ts`)
+- Types: PascalCase with .types.ts suffix (e.g., `Contact.types.ts`)
+
+### Import Organization
+```typescript
+// 1. Svelte imports
+import { onMount } from 'svelte'
+
+// 2. External libraries
+import { cva } from 'class-variance-authority'
+import axios from 'axios'
+
+// 3. Internal utilities and stores
+import { contactStore } from '$lib/stores'
+import { validateEmail } from '$lib/utils'
+
+// 4. Component imports
+import Button from '$lib/components/common/Button.svelte'
+
+// 5. Type imports
+import type { ContactForm } from '$lib/types'
+```
+
+### Component Styling with Tailwind
+```typescript
+// Example: Button component with Tailwind variants
+export interface ButtonProps {
+  variant?: 'primary' | 'secondary' | 'outline'
+  size?: 'sm' | 'md' | 'lg'
+  class?: string
+}
+
+const buttonVariants = cva(
+  'inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none disabled:opacity-50',
+  {
+    variants: {
+      variant: {
+        primary: 'bg-blue-600 text-white hover:bg-blue-700',
+        secondary: 'bg-gray-600 text-white hover:bg-gray-700',
+        outline: 'border border-gray-300 bg-transparent hover:bg-gray-50'
+      },
+      size: {
+        sm: 'h-8 px-3 text-sm',
+        md: 'h-10 px-4',
+        lg: 'h-12 px-6 text-lg'
+      }
+    },
+    defaultVariants: {
+      variant: 'primary',
+      size: 'md'
+    }
+  }
+)
+```
+
+### State Management
+- Use Svelte stores for global state
+- Keep component state local when possible
+- Create typed stores with TypeScript
+- Use derived stores for computed values
+
+## Styling Guidelines
+- Use Tailwind CSS utility classes for styling
+- Implement CSS custom properties for custom theming when needed
+- Use Tailwind's built-in responsive design utilities (mobile-first)
+- Prefer utility classes over custom CSS
+- Use `@apply` directive for component-specific styles when necessary
+- Configure custom design tokens in `tailwind.config.js`
+- Use Tailwind's color palette and spacing scale
+- Leverage Tailwind's component layer for reusable patterns
+- Use `class:` directive in Svelte for conditional styling
+- Configure purging to remove unused CSS in production
+
+### Tailwind Configuration
+- Set up Tailwind CSS with SvelteKit using `@tailwindcss/typography` for content
+- Configure custom color palette for tax advisor brand
+- Define custom spacing and typography scales
+- Use Tailwind plugins: `@tailwindcss/forms`, `@tailwindcss/aspect-ratio`
+- Configure content purging to include all Svelte files
+- Set up dark mode support if needed
+- Define custom animation classes for professional effects
+
+## Modern Development Practices
+
+### Middleware (if needed)
+- Use SvelteKit hooks for authentication
+- Implement request/response middleware in `hooks.server.ts`
+- Add CORS, security headers, and logging
+
+### Use Cases Pattern (for complex logic)
+- Create use case classes for business operations
+- Example: `ContactFormUseCase`, `ServiceInquiryUseCase`
+- Keep use cases pure and testable
+
+### Error Handling
+- Implement global error boundaries
+- Use proper error pages (`+error.svelte`)
+- Handle network errors gracefully
+- Provide user-friendly error messages
+
+## Development Standards
+
+### Code Quality
+- Use ESLint and Prettier for code formatting
+- Implement pre-commit hooks with Husky
+- Write unit tests for utilities and complex logic
+- Use TypeScript strict mode
+- Add JSDoc comments for complex functions
+
+### Performance
+- Implement lazy loading for non-critical components
+- Optimize images and assets
+- Use SvelteKit's built-in performance features
+- Monitor bundle size
+
+### Accessibility
+- Follow WCAG 2.1 guidelines
+- Use semantic HTML elements
+- Implement proper ARIA labels
+- Ensure keyboard navigation
+- Test with screen readers
+
+### SEO
+- Use proper meta tags and structured data
+- Implement SvelteKit's SEO features
+- Add Open Graph and Twitter Card meta tags
+- Create sitemap and robots.txt
+
+## Business Requirements
+- Professional, trustworthy design
+- Clear presentation of tax services
+- Easy contact and inquiry process
+- Mobile-responsive design
+- Fast loading times
+- Local SEO optimization for tax advisor services
+
+## Security Considerations
+- Sanitize all user inputs
+- Implement CSRF protection
+- Use HTTPS in production
+- Validate and sanitize contact form data
+- Implement rate limiting for forms
+
+## Development & Deployment
+
+### Local Development
+- Use `npm run dev` or `pnpm dev` for local development server
+- Test all functionality locally before deployment
+- Use browser dev tools for debugging and performance testing
+- Test responsive design across different screen sizes
+
+### Vercel Deployment
+- Deploy directly to Vercel for production hosting
+- Use Vercel's automatic deployments from Git repository
+- Configure environment variables in Vercel dashboard
+- Leverage Vercel's edge functions if needed for contact forms
+- Use Vercel Analytics for performance monitoring
+- Set up custom domain if required
+- Enable automatic HTTPS through Vercel
+
+### Configuration
+- Use `.env` files for local environment variables
+- Store sensitive data in Vercel environment variables
+- Configure SvelteKit adapter for Vercel (`@sveltejs/adapter-vercel`)
+- Optimize build settings for static site generation where possible
