@@ -1,11 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { browser } from '$app/environment';
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
 
   let mapContainer: HTMLDivElement;
   let map: google.maps.Map;
   let marker: google.maps.Marker;
+  let mapError = false;
 
   const icons: Record<string, string> = {
     Mail: '✉️',
@@ -63,58 +65,68 @@
       initMap();
     };
     
+    script.onerror = () => {
+      console.error('Failed to load Google Maps API');
+      mapError = true;
+    };
+    
     document.head.appendChild(script);
   });
 
   function initMap() {
     if (!mapContainer) return;
 
-    const latLng = new google.maps.LatLng(officeLocation.lat, officeLocation.lng);
+    try {
+      const latLng = new google.maps.LatLng(officeLocation.lat, officeLocation.lng);
 
-    map = new google.maps.Map(mapContainer, {
-      center: latLng,
-      zoom: 16,
-      zoomControl: true,
-      mapTypeControl: false,
-      streetViewControl: false,
-      fullscreenControl: false,
-      styles: [
-        {
-          featureType: 'poi',
-          elementType: 'labels',
-          stylers: [{ visibility: 'off' }]
+      map = new google.maps.Map(mapContainer, {
+        center: latLng,
+        zoom: 16,
+        zoomControl: true,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false,
+        styles: [
+          {
+            featureType: 'poi',
+            elementType: 'labels',
+            stylers: [{ visibility: 'off' }]
+          }
+        ]
+      });
+
+      marker = new google.maps.Marker({
+        position: latLng,
+        map: map,
+        title: 'Tatiana Hajduczek – rachunkowość',
+        animation: google.maps.Animation.DROP
+      });
+
+      // Add info window
+      const infoWindow = new google.maps.InfoWindow({
+        content: `
+          <div style="padding: 10px; max-width: 200px;">
+            <h3 style="margin: 0 0 5px 0; color: #1e3a8a; font-weight: bold;">Tatiana Hajduczek</h3>
+            <p style="margin: 0; color: #374151;">Ul. Piłsudskiego 6/3<br>44-200 Rybnik</p>
+          </div>
+        `
+      });
+
+      marker.addListener('click', () => {
+        infoWindow.open(map, marker);
+      });
+
+      // Trigger resize after a short delay to ensure proper rendering on mobile
+      setTimeout(() => {
+        if (map) {
+          google.maps.event.trigger(map, 'resize');
+          map.setCenter(latLng);
         }
-      ]
-    });
-
-    marker = new google.maps.Marker({
-      position: latLng,
-      map: map,
-      title: 'Tatiana Hajduczek – rachunkowość',
-      animation: google.maps.Animation.DROP
-    });
-
-    // Add info window
-    const infoWindow = new google.maps.InfoWindow({
-      content: `
-        <div style="padding: 10px; max-width: 200px;">
-          <h3 style="margin: 0 0 5px 0; color: #1e3a8a; font-weight: bold;">Tatiana Hajduczek</h3>
-          <p style="margin: 0; color: #374151;">Ul. Piłsudskiego 6/3<br>44-200 Rybnik</p>
-        </div>
-      `
-    });
-
-    marker.addListener('click', () => {
-      infoWindow.open(map, marker);
-    });
-
-    // Trigger resize after a short delay to ensure proper rendering on mobile
-    setTimeout(() => {
-      if (map) {
-        google.maps.event.trigger(map, 'resize');
-        map.setCenter(latLng);
-      }
-    }, 100);
+      }, 100);
+    } catch (error) {
+      console.error('Error initializing map:', error);
+      mapError = true;
+    }
   }
 </script>
 
@@ -152,7 +164,19 @@
               bind:this={mapContainer}
               class="w-full h-64 sm:h-80 md:h-96 bg-primary-50 rounded-lg overflow-hidden"
             >
-              <!-- Map will be loaded here -->
+              {#if mapError}
+                <div class="w-full h-full flex items-center justify-center">
+                  <div class="text-center space-y-4">
+                    <div class="text-4xl">🗺️</div>
+                    <p class="text-primary-600">Mapa tymczasowo niedostępna</p>
+                    <Button variant="outline" size="sm" href="https://maps.google.com/?q=Ul.+Piłsudskiego+6/3,+44-200+Rybnik" target="_blank">
+                      Otwórz w Google Maps
+                    </Button>
+                  </div>
+                </div>
+              {:else}
+                <!-- Map will be loaded here -->
+              {/if}
             </div>
             <div class="text-center space-y-2">
               <p class="text-primary-700 font-medium">Ul. Piłsudskiego 6/3, 44-200 Rybnik</p>
