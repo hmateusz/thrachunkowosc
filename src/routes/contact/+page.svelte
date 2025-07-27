@@ -1,6 +1,11 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
+
+  let mapContainer: HTMLDivElement;
+  let map: google.maps.Map;
+  let marker: google.maps.Marker;
 
   const icons: Record<string, string> = {
     Mail: '✉️',
@@ -31,7 +36,7 @@
     {
       icon: 'Clock',
       title: 'Godziny pracy',
-      value: 'Pn-Pt: 9:00-18:00',
+      value: 'Pn-Pt: 7:30-15:30',
       description: ''
     }
   ];
@@ -44,6 +49,73 @@
     'Przejęcie księgowości',
     'Inne'
   ];
+
+  const officeLocation = { lat: 50.0894, lng: 18.5435 };
+
+  onMount(() => {
+    // Load Google Maps API
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&libraries=places`;
+    script.async = true;
+    script.defer = true;
+    
+    script.onload = () => {
+      initMap();
+    };
+    
+    document.head.appendChild(script);
+  });
+
+  function initMap() {
+    if (!mapContainer) return;
+
+    const latLng = new google.maps.LatLng(officeLocation.lat, officeLocation.lng);
+
+    map = new google.maps.Map(mapContainer, {
+      center: latLng,
+      zoom: 16,
+      zoomControl: true,
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: false,
+      styles: [
+        {
+          featureType: 'poi',
+          elementType: 'labels',
+          stylers: [{ visibility: 'off' }]
+        }
+      ]
+    });
+
+    marker = new google.maps.Marker({
+      position: latLng,
+      map: map,
+      title: 'Tatiana Hajduczek – rachunkowość',
+      animation: google.maps.Animation.DROP
+    });
+
+    // Add info window
+    const infoWindow = new google.maps.InfoWindow({
+      content: `
+        <div style="padding: 10px; max-width: 200px;">
+          <h3 style="margin: 0 0 5px 0; color: #1e3a8a; font-weight: bold;">Tatiana Hajduczek</h3>
+          <p style="margin: 0; color: #374151;">Ul. Piłsudskiego 6/3<br>44-200 Rybnik</p>
+        </div>
+      `
+    });
+
+    marker.addListener('click', () => {
+      infoWindow.open(map, marker);
+    });
+
+    // Trigger resize after a short delay to ensure proper rendering on mobile
+    setTimeout(() => {
+      if (map) {
+        google.maps.event.trigger(map, 'resize');
+        map.setCenter(latLng);
+      }
+    }, 100);
+  }
 </script>
 
 <svelte:head>
@@ -69,13 +141,24 @@
   <div class="container-custom">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
-        <!-- Office Map Placeholder -->
+        <!-- Office Map -->
         <Card variant="bordered">
-          <div class="aspect-video bg-primary-50 rounded-lg flex items-center justify-center">
+          <div class="space-y-4">
+            <div class="flex items-center space-x-2">
+              <span class="text-2xl">{icons.MapPin}</span>
+              <h3 class="text-lg font-semibold text-primary-800">Lokalizacja biura</h3>
+            </div>
+            <div 
+              bind:this={mapContainer}
+              class="w-full h-64 sm:h-80 md:h-96 bg-primary-50 rounded-lg overflow-hidden"
+            >
+              <!-- Map will be loaded here -->
+            </div>
             <div class="text-center space-y-2">
-              <span class="text-4xl">{icons.MapPin}</span>
-              <p class="text-primary-600 font-medium">Lokalizacja biura</p>
-              <p class="text-primary-500 text-sm">Zapraszamy do naszego biura</p>
+              <p class="text-primary-700 font-medium">Ul. Piłsudskiego 6/3, 44-200 Rybnik</p>
+              <Button variant="outline" size="sm" href="https://maps.google.com/?q=Ul.+Piłsudskiego+6/3,+44-200+Rybnik" target="_blank">
+                Otwórz w Google Maps
+              </Button>
             </div>
           </div>
         </Card>
@@ -120,46 +203,3 @@
     </div>
   </div>
 </section>
-
-<!-- FAQ Section -->
-<section class="section-padding bg-primary-50">
-  <div class="container-custom">
-    <div class="text-center space-y-4 mb-12">
-      <h2 class="text-3xl sm:text-4xl font-bold text-primary-800">
-        Często zadawane pytania
-      </h2>
-      <p class="text-lg text-primary-600 max-w-2xl mx-auto">
-        Masz pytania? Oto odpowiedzi na najczęściej zadawane pytania dotyczące naszych usług księgowych.
-      </p>
-    </div>
-    
-    <div class="max-w-3xl mx-auto space-y-6">
-      <Card variant="bordered">
-        <div class="space-y-3">
-          <h3 class="text-lg font-semibold text-primary-800">Jak szybko możecie przejąć księgowość mojej firmy?</h3>
-          <p class="text-primary-600">
-            Przejęcie księgowości może nastąpić już od następnego miesiąca. Zapewniamy płynne przejście i analizę poprzedniej dokumentacji.
-          </p>
-        </div>
-      </Card>
-      
-      <Card variant="bordered">
-        <div class="space-y-3">
-          <h3 class="text-lg font-semibold text-primary-800">Czy oferujecie usługi zdalne?</h3>
-          <p class="text-primary-600">
-            Tak! Większość naszych usług można realizować zdalnie. Zapewniamy bezpieczne systemy wymiany dokumentów i regularny kontakt.
-          </p>
-        </div>
-      </Card>
-      
-      <Card variant="bordered">
-        <div class="space-y-3">
-          <h3 class="text-lg font-semibold text-primary-800">Jakie dokumenty są potrzebne do rozpoczęcia współpracy?</h3>
-          <p class="text-primary-600">
-            Na wstępie potrzebujemy podstawowych dokumentów firmowych i dokumentacji z poprzedniego okresu. Szczegółową listę otrzymacie podczas pierwszej konsultacji.
-          </p>
-        </div>
-      </Card>
-    </div>
-  </div>
-</section> 

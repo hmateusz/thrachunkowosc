@@ -14,21 +14,21 @@
       title: 'INDYWIDUALNE OSOBY FIZYCZNE',
       description: 'Profesjonalne usługi księgowe dostosowane do potrzeb osób fizycznych prowadzących działalność gospodarczą.',
       icon: 'Users',
-      href: '/services#services'
+      href: '/services#individuals'
     },
     {
       id: 'sme',
       title: 'MIKRO, MAŁE I ŚREDNIE PRZEDSIĘBIORSTWA',
       description: 'Kompleksowa obsługa księgowa dla rozwijających się firm, optymalizacja kosztów i efektywności biznesowej.',
       icon: 'TrendingUp',
-      href: '/services#services'
+      href: '/services#sme'
     },
     {
       id: 'companies',
       title: 'SPÓŁKI PRAWA CYWILNEGO I HANDLOWEGO',
       description: 'Specjalistyczne usługi księgowe dla spółek z uwzględnieniem specyfiki prawnej i podatkowej.',
       icon: 'Shield',
-      href: '/services#services'
+      href: '/services#companies'
     }
   ];
 </script>
