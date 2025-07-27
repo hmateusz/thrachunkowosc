@@ -27,16 +27,16 @@
  */
 declare module '$env/static/private' {
 	export const NVM_INC: string;
-	export const npm_config_legacy_peer_deps: string;
 	export const TERM_PROGRAM: string;
 	export const NODE: string;
 	export const INIT_CWD: string;
 	export const NVM_CD_FLAGS: string;
 	export const TERM: string;
 	export const SHELL: string;
-	export const HOMEBREW_REPOSITORY: string;
 	export const TMPDIR: string;
+	export const HOMEBREW_REPOSITORY: string;
 	export const npm_config_global_prefix: string;
+	export const npm_config_include: string;
 	export const TERM_PROGRAM_VERSION: string;
 	export const ZDOTDIR: string;
 	export const CURSOR_TRACE_ID: string;
@@ -59,7 +59,6 @@ declare module '$env/static/private' {
 	export const LSCOLORS: string;
 	export const PATH: string;
 	export const npm_package_json: string;
-	export const npm_config_engine_strict: string;
 	export const _: string;
 	export const npm_config_userconfig: string;
 	export const npm_config_init_module: string;
@@ -83,6 +82,7 @@ declare module '$env/static/private' {
 	export const HOME: string;
 	export const VSCODE_GIT_ASKPASS_MAIN: string;
 	export const HOMEBREW_PREFIX: string;
+	export const npm_config_prefer_offline: string;
 	export const npm_config_cache: string;
 	export const LESS: string;
 	export const LOGNAME: string;
@@ -130,16 +130,16 @@ declare module '$env/static/public' {
 declare module '$env/dynamic/private' {
 	export const env: {
 		NVM_INC: string;
-		npm_config_legacy_peer_deps: string;
 		TERM_PROGRAM: string;
 		NODE: string;
 		INIT_CWD: string;
 		NVM_CD_FLAGS: string;
 		TERM: string;
 		SHELL: string;
-		HOMEBREW_REPOSITORY: string;
 		TMPDIR: string;
+		HOMEBREW_REPOSITORY: string;
 		npm_config_global_prefix: string;
+		npm_config_include: string;
 		TERM_PROGRAM_VERSION: string;
 		ZDOTDIR: string;
 		CURSOR_TRACE_ID: string;
@@ -162,7 +162,6 @@ declare module '$env/dynamic/private' {
 		LSCOLORS: string;
 		PATH: string;
 		npm_package_json: string;
-		npm_config_engine_strict: string;
 		_: string;
 		npm_config_userconfig: string;
 		npm_config_init_module: string;
@@ -186,6 +185,7 @@ declare module '$env/dynamic/private' {
 		HOME: string;
 		VSCODE_GIT_ASKPASS_MAIN: string;
 		HOMEBREW_PREFIX: string;
+		npm_config_prefer_offline: string;
 		npm_config_cache: string;
 		LESS: string;
 		LOGNAME: string;

@@ -1,11 +1,5 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": ".svelte-kit/output/client",
   "installCommand": "npm ci",
-  "framework": "sveltekit",
-  "functions": {
-    "app/api/**/*.js": {
-      "runtime": "nodejs22.x"
-    }
-  }
+  "framework": "sveltekit"
 } 

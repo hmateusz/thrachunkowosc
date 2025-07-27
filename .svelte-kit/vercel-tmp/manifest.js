@@ -10,7 +10,7 @@ return {
 	assets: new Set(["favicon.png"]),
 	mimeTypes: {".png":"image/png"},
 	_: {
-		client: {start:"_app/immutable/entry/start.IgR7-9WY.js",app:"_app/immutable/entry/app.BWOhD_nI.js",imports:["_app/immutable/entry/start.IgR7-9WY.js","_app/immutable/chunks/DNfo9RVR.js","_app/immutable/chunks/BonEYqnS.js","_app/immutable/entry/app.BWOhD_nI.js","_app/immutable/chunks/BonEYqnS.js","_app/immutable/chunks/IHki7fMi.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
+		client: {start:"_app/immutable/entry/start.BP805PPb.js",app:"_app/immutable/entry/app.BJIfiTbb.js",imports:["_app/immutable/entry/start.BP805PPb.js","_app/immutable/chunks/DK8sDSNV.js","_app/immutable/chunks/BonEYqnS.js","_app/immutable/entry/app.BJIfiTbb.js","_app/immutable/chunks/BonEYqnS.js","_app/immutable/chunks/IHki7fMi.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
 		nodes: [
 			__memo(() => import('../output/server/nodes/0.js')),
 			__memo(() => import('../output/server/nodes/1.js')),
