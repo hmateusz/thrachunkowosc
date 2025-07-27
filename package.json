@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "vite build",
@@ -17,12 +17,12 @@
   },
   "dependencies": {
     "@sveltejs/adapter-vercel": "^5.8.1",
+    "@sveltejs/kit": "^2.26.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
-    "@sveltejs/kit": "^2.0.0",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32",
     "svelte": "^4.2.7",
