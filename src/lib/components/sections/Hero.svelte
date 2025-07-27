@@ -5,9 +5,10 @@
   const checkIcon = '✓';
   
   const benefits = [
-    'Expert tax consultation',
-    'Maximize your deductions',
-    'Year-round support'
+    'Rzetelność i najwyższa jakość',
+    'Bezpieczeństwo',
+    'Partnerstwo',
+    'Osobiste zaangażowanie'
   ];
 </script>
 
@@ -18,15 +19,16 @@
       <div class="space-y-8">
         <div class="space-y-4">
           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-primary-800 leading-tight">
-            Professional Tax Advisory
-            <span class="text-primary-600">Services</span>
+            KSIĘGOWOŚĆ DLA
+            <span class="text-primary-600">TWOJEJ FIRMY</span>
           </h1>
           <p class="text-lg text-primary-600 max-w-lg">
-            Navigate complex tax regulations with confidence. Our expert advisors help you optimize your tax strategy and maximize your savings.
+            Ciągle rozwijamy się aby spełnić Państwa oczekiwania
           </p>
         </div>
         
         <div class="space-y-3">
+          <h3 class="text-xl font-semibold text-primary-800 mb-4">NASZE ATUTY</h3>
           {#each benefits as benefit}
             <div class="flex items-center space-x-3">
               <span class="text-green-500 text-xl">{checkIcon}</span>
@@ -37,10 +39,10 @@
         
         <div class="flex flex-col sm:flex-row gap-4">
           <Button size="lg" href="/contact">
-            Get Free Consultation
+            Kontakt
           </Button>
           <Button variant="outline" size="lg" href="/services">
-            Our Services
+            Co robimy
           </Button>
         </div>
       </div>
@@ -50,15 +52,15 @@
         <Card variant="elevated" class="relative z-10">
           <div class="p-8 text-center space-y-6">
             <div class="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto">
-              <span class="text-white text-2xl font-bold">%</span>
+              <span class="text-white text-2xl font-bold">📊</span>
             </div>
             <div>
-              <h3 class="text-2xl font-bold text-primary-800 mb-2">Save Up To</h3>
-              <p class="text-4xl font-bold text-primary-600">30%</p>
-              <p class="text-primary-600">On Your Tax Bill</p>
-            </div>
-            <div class="text-sm text-primary-500">
-              *Average savings with professional tax optimization
+              <h3 class="text-2xl font-bold text-primary-800 mb-2">ŚWIADCZYMY USŁUGI DLA</h3>
+              <div class="space-y-2 text-sm text-primary-600">
+                <p class="font-semibold">INDYWIDUALNYCH OSÓB FIZYCZNYCH</p>
+                <p class="font-semibold">MIKRO, MAŁYCH I ŚREDNICH PRZEDSIĘBIORSTW</p>
+                <p class="font-semibold">SPÓŁEK PRAWA CYWILNEGO I HANDLOWEGO</p>
+              </div>
             </div>
           </div>
         </Card>

@@ -4,8 +4,8 @@
 </script>
 
 <svelte:head>
-  <title>TaxPro - Professional Tax Advisory Services</title>
-  <meta name="description" content="Expert tax consultation and preparation services. Maximize your deductions and navigate complex tax regulations with confidence." />
+  <title>Tatiana Hajduczek – rachunkowość</title>
+  <meta name="description" content="Księgowość dla Twojej firmy. Świadczymy najlepsze i najbezpieczniejsze usługi księgowe dla osób fizycznych, małych i średnich przedsiębiorstw oraz spółek." />
 </svelte:head>
 
 <Hero />

@@ -6,10 +6,12 @@
     variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
     size?: 'sm' | 'md' | 'lg';
     class?: string;
+    href?: string;
   }
   
   export let variant: ButtonProps['variant'] = 'primary';
   export let size: ButtonProps['size'] = 'md';
+  export let href: ButtonProps['href'] = undefined;
   let className: string = '';
   export { className as class };
   
@@ -37,10 +39,20 @@
   );
 </script>
 
-<button
-  class={buttonVariants({ variant, size, class: className })}
-  {...$$restProps}
-  on:click
->
-  <slot />
-</button> 
+{#if href}
+  <a
+    href={href}
+    class={buttonVariants({ variant, size, class: className })}
+    {...$$restProps}
+  >
+    <slot />
+  </a>
+{:else}
+  <button
+    class={buttonVariants({ variant, size, class: className })}
+    {...$$restProps}
+    on:click
+  >
+    <slot />
+  </button>
+{/if} 

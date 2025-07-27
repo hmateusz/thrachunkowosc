@@ -1,42 +1,34 @@
 <script lang="ts">
-  import Card from '../common/Card.svelte';
-  import Button from '../common/Button.svelte';
+  import Card from '$lib/components/common/Card.svelte';
+  import Button from '$lib/components/common/Button.svelte';
   // Simple emoji icons instead of lucide
   const serviceIcons: Record<string, string> = {
-    Calculator: '🧮',
-    TrendingUp: '📈', 
-    Users: '👥',
-    FileText: '📄'
+    Users: '👤',
+    TrendingUp: '🏢',
+    Shield: '🏛️'
   };
   
   const services = [
     {
-      id: 'tax-preparation',
-      title: 'Tax Preparation',
-      description: 'Comprehensive tax preparation services for individuals and businesses.',
-      icon: 'Calculator',
-      features: ['Personal Tax Returns', 'Business Tax Filing', 'Amendment Services']
-    },
-    {
-      id: 'tax-planning',
-      title: 'Tax Planning',
-      description: 'Strategic tax planning to minimize your tax liability year-round.',
-      icon: 'TrendingUp',
-      features: ['Tax Strategy', 'Deduction Optimization', 'Retirement Planning']
-    },
-    {
-      id: 'business-consulting',
-      title: 'Business Consulting',
-      description: 'Expert guidance for business tax matters and compliance.',
+      id: 'individuals',
+      title: 'INDYWIDUALNE OSOBY FIZYCZNE',
+      description: 'Profesjonalne usługi księgowe dostosowane do potrzeb osób fizycznych prowadzących działalność gospodarczą.',
       icon: 'Users',
-      features: ['Corporate Tax', 'Payroll Services', 'Business Formation']
+      href: '/services#services'
     },
     {
-      id: 'audit-support',
-      title: 'Audit Support',
-      description: 'Professional representation and support during tax audits.',
-      icon: 'FileText',
-      features: ['IRS Representation', 'Document Preparation', 'Audit Defense']
+      id: 'sme',
+      title: 'MIKRO, MAŁE I ŚREDNIE PRZEDSIĘBIORSTWA',
+      description: 'Kompleksowa obsługa księgowa dla rozwijających się firm, optymalizacja kosztów i efektywności biznesowej.',
+      icon: 'TrendingUp',
+      href: '/services#services'
+    },
+    {
+      id: 'companies',
+      title: 'SPÓŁKI PRAWA CYWILNEGO I HANDLOWEGO',
+      description: 'Specjalistyczne usługi księgowe dla spółek z uwzględnieniem specyfiki prawnej i podatkowej.',
+      icon: 'Shield',
+      href: '/services#services'
     }
   ];
 </script>
@@ -45,43 +37,30 @@
   <div class="container-custom">
     <div class="text-center space-y-4 mb-16">
       <h2 class="text-3xl sm:text-4xl font-bold text-primary-800">
-        Our Tax Services
+        CO ROBIMY
       </h2>
-      <p class="text-lg text-primary-600 max-w-2xl mx-auto">
-        Comprehensive tax solutions tailored to your needs. From preparation to planning, we've got you covered.
+      <p class="text-lg text-primary-600 max-w-3xl mx-auto">
+        Proponujemy <strong>najlepsze i najbezpieczniejsze rozwiązania dotyczące obszarów optymalizacji kosztowej i podatkowej</strong>, tak aby biznes był bardziej efektywny i zyskowny. Doradzamy, tam, gdzie jest potrzebna nasza wiedza i doświadczenie, pomagamy znaleźć jak najlepsze rozwiązania dla Waszego biznesu.
+      </p>
+      <p class="text-lg text-primary-600 max-w-3xl mx-auto">
+        Zachęcamy Państwa do zapoznania się z ofertą księgową, która jest skierowana zarówno do małych, średnich jak i dużych firm.
       </p>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       {#each services as service}
-        <Card variant="bordered" class="hover:shadow-medium transition-all duration-200">
-          <div class="space-y-4">
-            <div class="flex items-center space-x-3">
-              <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                <span class="text-2xl">{serviceIcons[service.icon]}</span>
+        <a href={service.href} class="block">
+          <Card variant="bordered" class="hover:shadow-medium transition-all duration-200 text-center h-full cursor-pointer hover:border-primary-400">
+            <div class="space-y-4">
+              <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto">
+                <span class="text-3xl">{serviceIcons[service.icon]}</span>
               </div>
               <h3 class="text-xl font-semibold text-primary-800">{service.title}</h3>
+              <p class="text-primary-600">{service.description}</p>
             </div>
-            
-            <p class="text-primary-600">{service.description}</p>
-            
-            <ul class="space-y-2">
-              {#each service.features as feature}
-                <li class="flex items-center space-x-2">
-                  <div class="w-1.5 h-1.5 bg-primary-500 rounded-full"></div>
-                  <span class="text-sm text-primary-600">{feature}</span>
-                </li>
-              {/each}
-            </ul>
-          </div>
-        </Card>
+          </Card>
+        </a>
       {/each}
-    </div>
-    
-    <div class="text-center">
-      <Button href="/services" size="lg">
-        View All Services
-      </Button>
     </div>
   </div>
 </section> 
